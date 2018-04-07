@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+        body {
+            padding-top: 5rem;
+        }
+
+        .starter-template {
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="static/css/colors.css" />
+    <link rel="stylesheet" href="static/css/nav.css" />
+    <link rel="stylesheet" href="static/css/graphs/graph1.css"/>
+
+
+    <link rel="stylesheet" href="static/css/calendar/jsCalendar.css"/>
+    <link rel="stylesheet" href="static/css/calendar/jsCalendar.clean.css"/>
+    <script type="text/javascript" src="static/js/calendar/jsCalendar.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+
+
+</head>
+
+
+<body>
+    <script src="static/js/graphs/graph1.js"></script>
+    <nav class="navbar navbar-expand-md navbar-dark bg-mira-dark fixed-top">
+        <a class="navbar-brand" href="#"><img src="static/images/gradient%20logo-3.jpg" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <form class="form-inline ml-auto my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-well my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <main role="main" class="container-fluid">
+        <div class="row">
+            <div id="paitent-summary-pane" class="col-md-2">
+                <div class="row toolbar">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+                    <p></p>
+                </div>
+                <div class="row pane">
+                    <div>
+                        <h3>John Doe</h3>
+                        <br/>
+
+                    </div>
+                    <div class="auto-jsCalendar jsCalendar">
+
+                    </div>
+                </div>
+            </div>
+            <div id="patient-info-pane" class="col-md-10">
+                <div class="row indent toolbar">
+                    text
+                </div>
+                <div class="row">
+                    <div id="patient-graph-pane" class="pane col-md-9">
+                        <div id="map"></div>
+                            <script>
+                              function initMap() {
+                                var hoboken = {lat: 40.745217, lng: -74.025888};
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                  zoom: 14,
+                                  center: hoboken
+                                });
+                                var marker = new google.maps.Marker({
+                                  position: hoboken,
+                                  map: map
+                                });
+                              }
+                            </script>
+                            <script async defer
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTmTDl7pWaPOKDNhQNsJutvcUvll6zR8M&callback=initMap">
+                            </script>
+
+
+                            <div id='graph1'></div>
+                            <script src="static/js/box.js"></script>
+                            <script>
+
+                            var margin = {top: 10, right: 50, bottom: 20, left: 50},
+                                width = 120 - margin.left - margin.right,
+                                height = 500 - margin.top - margin.bottom;
+
+                            var min = Infinity,
+                                max = -Infinity;
+
+                            var chart = d3.box()
+                                .whiskers(iqr(1.5))
+                                .width(width)
+                                .height(height);
+
+                            d3.csv("morley.csv", function(error, csv) {
+                              if (error) throw error;
+
+                              var data = [];
+
+                              csv.forEach(function(x) {
+                                var e = Math.floor(x.Expt - 1),
+                                    r = Math.floor(x.Run - 1),
+                                    s = Math.floor(x.Speed),
+                                    d = data[e];
+                                if (!d) d = data[e] = [s];
+                                else d.push(s);
+                                if (s > max) max = s;
+                                if (s < min) min = s;
+                              });
+
+                              chart.domain([min, max]);
+
+                              var svg = d3.select("#graph1").selectAll("svg")
+                                  .data(data)
+                                .enter().append("svg")
+                                  .attr("class", "box")
+                                  .attr("width", width + margin.left + margin.right)
+                                  .attr("height", height + margin.bottom + margin.top)
+                                .append("g")
+                                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                                  .call(chart);
+
+                              setInterval(function() {
+                                svg.datum(randomize).call(chart.duration(1000));
+                              }, 2000);
+                            });
+
+                            function randomize(d) {
+                              if (!d.randomizer) d.randomizer = randomizer(d);
+                              return d.map(d.randomizer);
+                            }
+
+                            function randomizer(d) {
+                              var k = d3.max(d) * .02;
+                              return function(d) {
+                                return Math.max(min, Math.min(max, d + k * (Math.random() - .5)));
+                              };
+                            }
+
+                            // Returns a function to compute the interquartile range.
+                            function iqr(k) {
+                              return function(d, i) {
+                                var q1 = d.quartiles[0],
+                                    q3 = d.quartiles[2],
+                                    iqr = (q3 - q1) * k,
+                                    i = -1,
+                                    j = d.length;
+                                while (d[++i] < q1 - iqr);
+                                while (d[--j] > q3 + iqr);
+                                return [i, j];
+                              };
+                            }
+
+                            </script>
+
+                    </div>
+
+                    <div id="doctor-notes-pane" class="pane col-md-3">
+                       <div class="row entry-container">
+                           <div class="row entry"><p class="arrow">▶</p><p>Monday, March 12 2018</p></div>
+                           <div class="row entryBody card"><p class="col-md-12">Patient showed significant improvement</p></div>
+                       </div>
+                       <div class="row entry-container">
+                           <div class="row entry"><p class="arrow">▶</p><p>Monday, March 12 2018</p></div>
+                           <div class="row entryBody card"><p class="col-md-12">Patient showed significant improvement</p></div>
+                       </div>
+                       <div class="row entry-container">
+                           <div class="row entry"><p class="arrow">▶</p><p>Monday, March 12 2018</p></div>
+                           <div class="row entryBody card"><p class="col-md-12">Patient showed significant improvement</p></div>
+                       </div>
+                       <div class="row entry-container">
+                           <div class="row entry"><p class="arrow">▶</p><p>Monday, March 12 2018</p></div>
+                           <div class="row entryBody card"><p class="col-md-12">Patient showed significant improvement</p></div>
+                       </div>
+                       <div class="row entry-container">
+                           <div class="row entry"><p class="arrow">▶</p><p>Monday, March 12 2018</p></div>
+                           <div class="row entryBody card"><p  class="col-md-12">Patient showed significant improvement</p></div>
+                       </div>
+                       <div class="row entry-container">
+                           <div class="row entry"><p class="arrow">▶</p><p>Monday, March 12 2018</p></div>
+                           <div class="row entryBody card"><p  class="col-md-12">Patient showed significant improvement</p></div>
+                       </div>
+
+                        <div id="doctor-message" class="row bottom" style="">
+                            <input type="text" placeholder="Message" class="col-md-10"/>
+                            <button class="btn my-2 my-sm-0" type="submit">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+     <script type="application/javascript" src="static/js/entries.js"></script>
+
+
+</body>
+
+</html>

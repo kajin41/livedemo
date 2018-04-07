@@ -1,0 +1,28 @@
+.indent{
+    background-color: #88B5D6;
+}
+.btn-outline-well{
+    color: #B8DBD4;
+    background-color: transparent;
+    background-image: none;
+    border-color: #B8DBD4;
+}
+.bg-mira-dark{
+    background-color: #1A2739!important;
+}
+
+#paitent-summary-pane{
+    background-color: #f1f1f1
+}
+#patient-graph-pane{
+    background-color: #dcdcdc
+}
+#patient-journal-pane{
+    background-color: #f1f1f1
+}
+#doctor-notes-pane{
+    background-color: #f1f1f1
+}
+main{
+    margin-top: 30pt;
+}
