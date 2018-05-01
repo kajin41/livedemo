@@ -22,7 +22,7 @@ body{
     font-size: 20pt
 }
 .bottom{
-    position: absolute;
+    /*position: absolute;*/
     bottom: 0;
 }
 .entry-container{

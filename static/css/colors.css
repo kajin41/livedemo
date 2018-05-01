@@ -21,6 +21,7 @@
     background-color: #f1f1f1
 }
 #doctor-notes-pane{
+    position: relative;
     background-color: #f1f1f1
 }
 main{

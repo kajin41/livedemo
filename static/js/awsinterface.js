@@ -25,8 +25,7 @@ var makeDays = function() {
          if($('#doctor-notes-pane').children('#entry-date-' + new Date(parseInt(entry)).toDateString()).length != 0){
              console.log($('#entry-date-' + new Date(parseInt(entry)).toDateString()))
          }else {
-           $('#doctor-notes-pane').append(
-           `<div id="entry-date-` + new Date(parseInt(entry)).toDateString() + `" class="row entry-container">
+           $(`<div id="entry-date-` + new Date(parseInt(entry)).toDateString() + `" class="row entry-container">
                            <div class="row entry"><div class="arrow">▶</div><div>` + new Date(parseInt(entry)).toDateString() +`</div></div>
                            <div class="row entryBody">
                               <div class="col-md-12 journal-daily-symptoms">
@@ -54,7 +53,7 @@ var makeDays = function() {
 
                            </div>
                        </div>`
-           );
+           ).insertBefore('#doctor-message');
          };
      };
 };
