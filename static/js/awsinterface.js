@@ -18,6 +18,7 @@ var getuser = function(user, callback) {
     });
 };
 
+var ass = 0;
 var makeDays = function() {
     console.log(userJournal);
      for (entry in userJournal) {
@@ -54,7 +55,9 @@ var makeDays = function() {
                            </div>
                        </div>`
            ).insertBefore('#doctor-message');
-         };
+          $(".entry").click(fuckJqueryWhatTheFuck);
+          $(".sub-entry").click(jQuerySucksBalls);
+         }
      };
 };
 

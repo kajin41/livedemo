@@ -1,4 +1,5 @@
-$(".entry").click(function () {
+function fuckJqueryWhatTheFuck(){
+    console.log("Suck my fucking nuts");
     if ($(this).children("div.arrow").text() === "▶") {
         $(this).children("div.arrow").text("▼");
         $(this).next().show();
@@ -6,9 +7,9 @@ $(".entry").click(function () {
         $(this).children("div.arrow").text("▶");
         $(this).next().hide();
     }
-});
+}
 
-$(".sub-entry").click(function () {
+function jQuerySucksBalls(){
     if ($(this).children("div.arrow").text() === "▶") {
         $(this).children("div.arrow").text("▼");
         $(this).next().show();
@@ -16,5 +17,8 @@ $(".sub-entry").click(function () {
         $(this).children("div.arrow").text("▶");
         $(this).next().hide();
     }
-});
+}
+
+$(".entry").click(fuckJqueryWhatTheFuck);
+$(".sub-entry").click(jQuerySucksBalls);
 
