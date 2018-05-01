@@ -8,8 +8,8 @@ body{
   padding: 0px; /* firefox bug fix */
 }
 .navbar-brand>img {
-  height: 80pt;
-  padding: 15px; /* firefox bug fix */
+  height: 60pt;
+  padding: 0 15px; /* firefox bug fix */
   width: auto;
 }
 .pane{
@@ -31,6 +31,9 @@ body{
 .entry{
 
 }
+.sub-entry{
+    margin-left: 5px;
+}
 .entryBody{
     padding-left: 8px;
     padding-right: 8px;
@@ -38,7 +41,18 @@ body{
     display: none;
 
 }
-.entry p{
+.sub-entryBody{
+    margin-left: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-left: 5px solid #B8DBD4;
+    display: none;
+
+}
+.entry div{
+    cursor: pointer;
+}
+.sub-entry div{
     cursor: pointer;
 }
 p.arrow{
@@ -70,4 +84,24 @@ p.arrow{
 .box .outlier {
   fill: none;
   stroke: #ccc;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

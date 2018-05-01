@@ -26,3 +26,12 @@
 main{
     margin-top: 30pt;
 }
+.green{
+    color: green;
+}
+.red{
+    color: red;
+}
+.card{
+    background-color: skyblue
+}
